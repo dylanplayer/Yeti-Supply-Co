@@ -1,0 +1,179 @@
+html, body {
+    overflow: scroll;
+    overflow-x: hidden;
+    font-family: Helvetica, sans-serif;
+}
+
+.bg-hero-image {
+    background: linear-gradient(0deg, rgba(100, 100, 100, 0.5), rgba(100, 100, 100, 0.5)), url('https://cdn.shopify.com/s/files/1/0578/4616/9762/files/Snowboard_Hero_1.jpg?v=1625176862');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+
+.hero h1 {
+    font-size: 4rem;
+}
+
+.hero a {
+    font-size: 1.5rem;
+}
+
+.orange-accent {
+    background-color: #F57D25;
+    border: 1px solid transparent;
+    height: 5px;
+    width: 90px;
+}
+
+.btn-primary {
+    background-color: #F57D25 !important;
+    border-color: #F57D25 !important;
+}
+
+.btn-secondary {
+    background-color: transparent !important;
+    border-color: #F57D25 !important;
+    color: #F57D25;
+}
+
+.btn-secondary:hover {
+    background-color: #F57D25 !important;
+    border-color: #F57D25 !important;
+}
+
+.btn {
+    border-radius: 25px !important;
+}
+
+.btn:hover {
+    transform: scale(1.03);
+}
+
+.hover-scale:hover {
+    transform: scale(1.03);
+}
+
+.featured-product {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.featured-product-col {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: block;
+}
+
+.featured-product-text {
+    background-color: #F3F3F3;
+    padding: 4rem;
+}
+
+.featured-product-text * {
+    margin-bottom: 1rem;
+}
+
+.featured-product-image {
+    background-image: url('https://cdn.shopify.com/s/files/1/0578/4616/9762/files/jones-dream-catcher-splitboard.jpg?v=1625196197') !important;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+    height: 100%;
+    width: 100%;
+}
+
+.introduction-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background-color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.introduction-text * {
+    margin-bottom: 1rem;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+.featured-collections {
+    gap: 0px;
+}
+
+.featured-collection {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.featured-collection:hover {
+    transform: scale(1.02);
+    border-radius: 10px;
+}
+
+.featured-collection-1 {
+    background-image: linear-gradient(0deg, rgba(100, 100, 100, 0.3), rgba(100, 100, 100, 0.3)), url('https://cdn.shopify.com/s/files/1/0578/4616/9762/files/snowboarding-lifestyle-1.jpg?v=1638338007');
+}
+
+.featured-collection-2 {
+    background-image: linear-gradient(0deg, rgba(100, 100, 100, 0.3), rgba(100, 100, 100, 0.3)), url('https://cdn.shopify.com/s/files/1/0578/4616/9762/files/sking-lifestyle-1.jpg?v=1638338007');
+}
+
+.featured-collection-3 {
+    background-image: linear-gradient(0deg, rgba(100, 100, 100, 0.3), rgba(100, 100, 100, 0.3)), url('https://cdn.shopify.com/s/files/1/0578/4616/9762/files/hiking-lifestyle-1.jpg?v=1638338283');
+}
+
+.join-email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background-color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.join-email button {
+    border: 1px solid #F57D25;
+    border-radius: 0px 25px 25px 0px;
+    background-color: #F57D25;
+    color: white;
+    padding: .5rem 2rem ;
+}
+
+.join-email input {
+    border: 1px solid #F57D25;
+    border-radius: 25px 0px 0px 25px;
+    background-color: transparent;
+    color: #F57D25;
+    padding: .5rem;
+}
+
+footer {
+    background-color: #242424;
+    color: #F57D25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+}
+
+footer a {
+    color: #F57D25;
+    text-decoration: none;
+}
+
+footer a:hover {
+    cursor: pointer;
+    color: white;
+}

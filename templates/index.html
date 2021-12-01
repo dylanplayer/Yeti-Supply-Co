@@ -1,7 +1,42 @@
-{% extends 'base.html' %}
+{% extends 'index_base.html' %}
 {% block title %}<title>Yeti Supply Co.</title>{% endblock %}
 {% block content %}
-    <main>
-
+    <main class="container-fluid w-100 p-0 m-0">
+        <section class="container-fluid p-0 m-0 featured-product">
+            <div class="featured-product-col text-center">
+                <img class="" src="https://cdn.shopify.com/s/files/1/0578/4616/9762/files/jones-dream-catcher-splitboard.jpg?v=1625196197" height="400px" width="400px">
+            </div>
+            <div class="featured-product-col featured-product-text">
+                <div class="d-flex h-100 flex-column text-left justify-content-evenly">
+                    <div class="orange-accent"></div>
+                    <h1 class="fw-medium">Dream Catcher Splitboard</h1>
+                    <p class="fw-light">In a world of increasing specialization, it's nice to get a simple one-step solution every now and then. If you're looking for a good time in the backcountry, get on the Jones Dream Catcher Splitboard.</p>
+                    <div>
+                        <a class="btn btn-secondary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="introduction-text">
+            <div class="orange-accent"></div>
+            <h1>Selling quality snow gear since 1988</h1>
+        </section>
+        <section class="featured-collections container-fluid">
+            <div class="row">
+                <a href="" class="col-12 col-sm-4 featured-collection featured-collection-1 text-decoration-none d-flex flex-column align-items-center justify-content-center text-center"><h1 class="text-light fw-bolder">SNOWBOARDING</h1></a>
+                <a href="" class="col-12 col-sm-4 featured-collection featured-collection-2 text-decoration-none d-flex flex-column align-items-center justify-content-center text-center"><h1 class="text-light fw-bolder">SKIING</h1></a>
+                <a href="" class="col-12 col-sm-4 featured-collection featured-collection-3 text-decoration-none d-flex flex-column align-items-center justify-content-center text-center"><h1 class="text-light fw-bolder">HIKING</h1></a>
+            </div>
+        </section>
+        <section class="join-email">
+            <div class="orange-accent"></div>
+            <h1>Join our family</h1>
+            <p class="h3 fw-light">Get fresh tracks on the latest  deals, tips and news!</p>
+            <form class="d-flex flex-row">
+                <input type="email" placeholder="example@email.com">
+                <button type="submit" class="hover-scale fw-bold">Join</button>
+            </form>
+            </div>
+        </section>
     </main>
 {% endblock %}
