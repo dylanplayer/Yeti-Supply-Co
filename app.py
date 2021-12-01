@@ -1,10 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
-import datetime
+from datetime import datetime
+from bson import ObjectId
 import os
-from werkzeug.utils import redirect
-
-from werkzeug.wrappers import request
 
 
 app = Flask(__name__)
@@ -24,7 +22,7 @@ def index():
 
 # PRODUCT: NAME, PRICE, DESCRIPTION, IMAGE, CREATED_AT
 
-app.route('/product/new', methods=['POST'])
+@app.route('/product/new', methods=['POST', 'GET'])
 def create_product():
     if request.method == 'POST':
         product = {
@@ -32,25 +30,26 @@ def create_product():
             'price': request.form.get('price'),
             'description': request.form.get('description'),
             'image_url': request.form.get('image_url'),
+            'brand': request.form.get('brand'),
             'created_at': datetime.now(),
         }
-        products.insert_one(product)
-        product = products.find_one({'created_at', product['created_at']})
-        return redirect(f'/product/{product._id}')
+        product_id = str(products.insert(product))
+        print(product_id)
+        return redirect(f'/product/{ product_id }')
     else:
         return render_template('new_product.html', collections=collections.find())
 
-app.route('/product/<_id>', methods=['GET'])
+@app.route('/product/<_id>', methods=['GET'])
 def get_product(_id):
     if request.method == 'GET':
-        product = products.find_one({'_id', _id})
-        return render_template('product.html', product)
+        product = products.find_one({'_id': ObjectId(_id)})
+        return render_template('product.html', product=product)
 
-app.route('/shop/')
+@app.route('/shop/')
 def get_all_products():
     return render_template('products.html', collections=collections.find(), products=products.find())
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000 ,debug=True)

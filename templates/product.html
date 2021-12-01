@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}<title>{{ product.name }}</title>{% endblock %}
+{% block content %}
+    <main>
+        <div class="container product">
+            <div class="row product-image-container">
+                <img class="product-image" src='{{ product.image_url }}' alt="{{ product.name }}">
+            </div>
+            <div class="row product-details-container">
+                <div class="row">
+                    <h2 class="product-brand">{{ product.brand }}</h2>
+                </div>
+                <div class="row">
+                    <h1 class="product-name">{{ product.name }}</h1>
+                </div>
+                <div class="row">
+                    <h2 class="product-price">${{ product.price }}</h2>
+                </div>
+                <div class="row">
+                    <p class="product-description">{{ product.description }}</p>
+                </div>
+            </div>
+            <form class="row product-actions-container">
+                <input type="hidden" value='{{ product._id }}'>
+                <button type="submit" class="btn btn-primary">ADD TO CART</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}
