@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from pymongo import MongoClient
+from pymongo import MongoClient, collection
 from datetime import datetime
 from bson import ObjectId
 import os
@@ -19,8 +19,6 @@ collections = db.collections
 @app.route('/')
 def index():
     return render_template('index.html', collections=collections.find(), product=products.find_one())
-
-# PRODUCT: NAME, PRICE, DESCRIPTION, IMAGE, CREATED_AT
 
 @app.route('/product/new', methods=['POST', 'GET'])
 def create_product():
@@ -43,11 +41,32 @@ def create_product():
 def get_product(_id):
     if request.method == 'GET':
         product = products.find_one({'_id': ObjectId(_id)})
-        return render_template('product.html', product=product)
+        return render_template('product.html', collections=collections.find(), product=product)
 
 @app.route('/shop/')
 def get_all_products():
     return render_template('products.html', collections=collections.find(), products=products.find())
+
+# Collection
+@app.route('/collection/new', methods=['POST', 'GET'])
+def create_collection():
+    if request.method == 'POST':
+        collection = {
+            'name': request.form.get('name'),
+            'products': [],
+            'created_at': datetime.now(),
+        }
+        collection_id = str(collections.insert(collection))
+        print(collection_id)
+        return redirect(f'/collection/{ collection_id }')
+    else:
+        return render_template('new_collection.html', collections=collections.find())
+
+@app.route('/collection/<_id>', methods=['GET'])
+def get_collection(_id):
+    if request.method == 'GET':
+        collection = collections.find_one({'_id': ObjectId(_id)})
+        return render_template('collection.html', collections=collections.find(), collection=collection)
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 
