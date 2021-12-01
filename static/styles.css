@@ -6,6 +6,8 @@ html, body {
 
 main {
     min-height: 80vh;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .bg-hero-image {
@@ -116,6 +118,7 @@ main {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    margin-bottom: 1rem;
 }
 
 .featured-collection:hover {
@@ -180,4 +183,44 @@ footer a {
 footer a:hover {
     cursor: pointer;
     color: white;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 700px;
+}
+
+.product-image-container {
+    height: 400px;
+    text-align: center;
+}
+
+.product-image {
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-details-container {
+    margin-top: 2rem;
+}
+
+.product-brand {
+    font-size: 1rem;
+    color: lightgray;
+    font-weight: light;
+}
+
+.product-name {
+    font-weight: medium;
+}
+
+.product-price {
+    font-size: 1.2rem;
+}
+
+.product-description {
+    font-size: 1rem;
 }

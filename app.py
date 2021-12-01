@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
-import datetime
+from datetime import datetime
+from bson import ObjectId
 import os
 
 
@@ -29,19 +30,20 @@ def create_product():
             'price': request.form.get('price'),
             'description': request.form.get('description'),
             'image_url': request.form.get('image_url'),
+            'brand': request.form.get('brand'),
             'created_at': datetime.now(),
         }
-        products.insert_one(product)
-        product = products.find_one({'created_at', product['created_at']})
-        return redirect(f'/product/{product._id}')
+        product_id = str(products.insert(product))
+        print(product_id)
+        return redirect(f'/product/{ product_id }')
     else:
         return render_template('new_product.html', collections=collections.find())
 
 @app.route('/product/<_id>', methods=['GET'])
 def get_product(_id):
     if request.method == 'GET':
-        product = products.find_one({'_id', _id})
-        return render_template('product.html', product)
+        product = products.find_one({'_id': ObjectId(_id)})
+        return render_template('product.html', product=product)
 
 @app.route('/shop/')
 def get_all_products():
