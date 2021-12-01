@@ -20,7 +20,7 @@ collections = db.collections
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', collections=collections.find(), product=products.find_one())
 
 # PRODUCT: NAME, PRICE, DESCRIPTION, IMAGE, CREATED_AT
 
@@ -48,7 +48,9 @@ def get_product(_id):
 
 app.route('/shop/')
 def get_all_products():
-    return render_template('products.html', products=products.find())
+    return render_template('products.html', collections=collections.find(), products=products.find())
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 
+if __name__ == '__main__':
+    app.run(debug=True)
