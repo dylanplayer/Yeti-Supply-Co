@@ -1,4 +1,5 @@
 # Yeti-Supply-Co
  - [x] Create ERD
  - [x] Draw Wireframes
- - [ ] Crud 1st reasource
+ - [x] Crud 1st reasource
+ - [ ] Crud 2nd reasource
