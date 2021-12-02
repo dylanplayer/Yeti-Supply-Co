@@ -2,4 +2,5 @@
  - [x] Create ERD
  - [x] Draw Wireframes
  - [x] Crud 1st reasource
- - [ ] Crud 2nd reasource
+ - [x] Crud 2nd reasource
+ - [ ] Crud 3rd reasource
