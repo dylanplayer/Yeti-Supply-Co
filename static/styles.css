@@ -224,3 +224,59 @@ footer a:hover {
 .product-description {
     font-size: 1rem;
 }
+
+.collection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.collection-product {
+    color: #F57D25;
+    max-width: 95%;
+}
+
+.collection-product-image-container {
+    height: 300px;
+}
+
+.collection-product-image {
+    height: 100%;
+    object-fit: contain;
+}
+
+.collection-name {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.collection-product-details-container {
+    border: 1px transparent;
+    padding: .5rem;
+    margin-top: 1rem;
+    border-radius: 0px 0px 10px 10px;
+    height: fit-content;
+}
+
+.collection-products-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.collection-product-brand {
+    font-size: 1rem;
+    color: lightgray;
+    font-weight: light;
+}
+
+.collection-product-name {
+    font-size: 1.2rem;
+    font-weight: medium;
+    color: black;
+}
+
+.collection-product-price {
+    font-size: 1.2rem;
+    color: #F57D25;
+}

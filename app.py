@@ -32,7 +32,10 @@ def create_product():
             'created_at': datetime.now(),
         }
         product_id = str(products.insert(product))
-        print(product_id)
+        collections.update_one(
+            {'_id': ObjectId(request.form.get('collection'))},
+            {'$push': {'products': product_id}}
+        )
         return redirect(f'/product/{ product_id }')
     else:
         return render_template('new_product.html', collections=collections.find())
@@ -57,7 +60,6 @@ def create_collection():
             'created_at': datetime.now(),
         }
         collection_id = str(collections.insert(collection))
-        print(collection_id)
         return redirect(f'/collection/{ collection_id }')
     else:
         return render_template('new_collection.html', collections=collections.find())
@@ -66,7 +68,10 @@ def create_collection():
 def get_collection(_id):
     if request.method == 'GET':
         collection = collections.find_one({'_id': ObjectId(_id)})
-        return render_template('collection.html', collections=collections.find(), collection=collection)
+        products_list = []
+        for _id in collection['products']:
+            products_list.append(products.find_one({'_id': ObjectId(_id)}))
+        return render_template('collection.html', collections=collections.find(), collection=collection, products=products_list)
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 

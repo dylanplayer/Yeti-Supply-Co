@@ -15,18 +15,27 @@
         <nav class="navbar navbar-light bg-transparent pl-lg-5 pr-lg-5">
             <div class="container-fluid">
                 <a href="#"><img class="hover-scale" src="https://cdn.shopify.com/s/files/1/0578/4616/9762/files/menu.png?v=1638215689" height="25px" width="auto" data-bs-toggle="offcanvas" data-bs-target="#navigation" aria-controls="navigation"></a>
-                <a class="navbar-brand" href="#"><img src="https://cdn.shopify.com/s/files/1/0578/4616/9762/files/Yeti-Supply-Co_Text_Logo_1000x2500-01.png?v=1638215185" height="50px" width="auto"></a>
+                <a class="navbar-brand" href="/"><img src="https://cdn.shopify.com/s/files/1/0578/4616/9762/files/Yeti-Supply-Co_Text_Logo_1000x2500-01.png?v=1638215185" height="50px" width="auto"></a>
                 <a href="#"><img class="hover-scale" src="https://cdn.shopify.com/s/files/1/0578/4616/9762/files/bag.png?v=1638215333" height="25px" width="auto" data-bs-toggle="offcanvas" data-bs-target="#cart" aria-controls="cart"></a>
-                <div class="offcanvas offcanvas-start text-dark" tabindex="-1" id="navigation" aria-labelledby="navLabel">
+                <div class="offcanvas rounded offcanvas-start text-dark" tabindex="-1" id="navigation" aria-labelledby="navLabel">
                     <div class="offcanvas-header">
                       <h1 class="offcanvas-title h3" id="navLabel">Navigation</h5>
                       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                      
+                        <ul class="list-unstyled">
+                            <li><a class="h4 dropdown-item rounded" href="/">Home</a></li>
+                            <li>
+                                <ul class="list-unstyled">
+                                    {% for collection in collections %}
+                                        <li class="pl-3"><a class="h4 dropdown-item rounded" href='/collection/{{ collection._id }}'>{{collection.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="offcanvas offcanvas-end text-dark" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+                <div class="offcanvas rounded offcanvas-end text-dark" tabindex="-1" id="cart" aria-labelledby="cartLabel">
                     <div class="offcanvas-header">
                       <h1 class="offcanvas-title h3" id="cartLabel">Cart</h5>
                       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -39,10 +48,11 @@
         </nav>
     </header>
     {% block content %}{% endblock %}
-    <footer class="container-fluid">
-        <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-3">
-            <a class="h4" href="">Shop</a>
-            <a class="h4" href="">Contact</a>
+    <footer class="container-fluid" {{ collections.rewind() }}>
+        <div class="d-flex flex-row align-items-center justify-content-center gap-3 mb-3">
+            {% for collection in collections %}
+                <a class="h5 text-uppercase" href='/collection/{{ collection._id }}'>{{ collection.name }}</a>
+            {% endfor %}
         </div>
         <div>
             <p>© 2021, Yeti Supply Co.</p>

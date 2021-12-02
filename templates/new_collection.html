@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}<title>Yeti Supply Co.</title>{% endblock %}
+{% block content %}
+    <main class="container d-flex flex-column align-items-center mt-3 mb-3">
+        <h1>New Collection</h1>
+        <form class="container" action="/collection/new" method="post">
+            <div class="form-row bg-dark text-light p-3 rounded mb-2">
+                <div class="form-group col-12">
+                    <label for="name">Name</label>
+                    <input required class="form-control" type="text" name="name">
+                </div>
+            </div>
+            <div class="form-row d-flex flex-row justify-content-center">
+                <button type="submit" class="btn btn-primary pr-3 pl-3">Save</button>
+            </div>
+        </form>
+    </main>
+{% endblock %}

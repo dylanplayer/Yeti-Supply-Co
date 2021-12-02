@@ -6,17 +6,17 @@
             <div class="row product-image-container">
                 <img class="product-image" src='{{ product.image_url }}' alt="{{ product.name }}">
             </div>
-            <div class="row product-details-container">
-                <div class="row">
+            <div class="row product-details-container d-flex flex-column align-items-center">
+                <div class="row d-flex flex-column align-items-center">
                     <h2 class="product-brand">{{ product.brand }}</h2>
                 </div>
-                <div class="row">
+                <div class="row d-flex flex-column align-items-center">
                     <h1 class="product-name">{{ product.name }}</h1>
                 </div>
-                <div class="row">
+                <div class="row d-flex flex-column align-items-center">
                     <h2 class="product-price">${{ product.price }}</h2>
                 </div>
-                <div class="row">
+                <div class="row d-flex flex-column align-items-center">
                     <p class="product-description">{{ product.description }}</p>
                 </div>
             </div>
