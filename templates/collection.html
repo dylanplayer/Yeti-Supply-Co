@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}<title>{{collection.name}}</title>{% endblock %}
+{% block content %}
+    <main>
+        <div class="container-fluid collection">
+            <h1 class="collection-name">{{collection.name}}</h1>
+            <div class="row collection-products-container">
+                {% for product in products %}
+                    <a class="collection-product col-12 col-sm-6 col-md-4 text-decoration-none hover-scale" href='/product/{{ product._id }}'>
+                        <div class="row collection-product-image-container">
+                            <img class="collection-product-image" src='{{ product.image_url }}' alt="{{ product.name }}">
+                        </div>
+                        <div class="row collection-product-details-container d-flex flex-column align-items-center">
+                            <div class="row">
+                                <h1 class="collection-product-name">{{ product.name }}</h1>
+                            </div>
+                            <div class="row">
+                                <h2 class="collection-product-price">${{ product.price }}</h2>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
