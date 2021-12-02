@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 from pymongo import MongoClient, collection
 from datetime import datetime
 from bson import ObjectId
@@ -19,6 +19,10 @@ collections = db.collections
 @app.route('/')
 def index():
     return render_template('index.html', collections=collections.find(), product=products.find_one())
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico')
 
 @app.route('/product/new', methods=['POST', 'GET'])
 def create_product():
