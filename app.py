@@ -83,14 +83,6 @@ def get_collection(_id):
 
 
 # Order
-# @app.route('/order', methods=['GET'])
-# def get_order():
-#     cart = get_cart()
-#     if request.method == 'POST':
-#         pass
-#     else: 
-#         pass
-
 @app.route('/cart', methods=['POST'])
 def update_cart():
     if request.method == 'POST':
@@ -137,9 +129,9 @@ def cart_subtotal():
     return subtotal
 
 # Error Handler
-@app.errorhandler(Exception)
+@app.errorhandler()
 def handle_all_exceptions(error):
-    flash(f'You were redirected due to {error}', 'warning')
+    flash(f'{error}. You have been redirected to the home page.', 'warning')
     return redirect('/')
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
