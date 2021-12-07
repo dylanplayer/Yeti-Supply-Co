@@ -22,7 +22,7 @@
             {% endfor %}
             <div class="d-flex order-totals flex-row align-items-baseline justify-content-between w-50">
                 <h1 class="cart-subtotal">Total</h1>
-                <h1 class="cart-subtotal-amount">${{order.total}}</h1>
+                <h1 class="cart-subtotal-amount">${{'%0.2f' % order.total|float}}</h1>
             </div>
         </div>
     </main>
