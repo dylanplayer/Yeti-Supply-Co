@@ -12,6 +12,22 @@
     {% block title %}{% endblock %}
 </head>
 <body class="p-0">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                <img src="/favicon.ico" class="rounded mr-2" alt="Icon">
+                <strong class="mr-auto">Yeti Supply Co.</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="toast-body">
+                    {{ message }}
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
     <header class="container-fluid text-white bg-dark">
         <nav class="navbar navbar-light bg-transparent pl-lg-5 pr-lg-5">
             <div class="container-fluid">
@@ -36,13 +52,48 @@
                         </ul>
                     </div>
                 </div>
-                <div class="offcanvas rounded offcanvas-end text-dark" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+                <div class="offcanvas {% if show_cart %} show {% endif %} rounded offcanvas-end text-dark" tabindex="-1" id="cart" aria-labelledby="cartLabel">
                     <div class="offcanvas-header">
                       <h1 class="offcanvas-title h3" id="cartLabel">Cart</h5>
                       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                      
+                        {% if cart %}
+                            <ul class="list-unstyled cart-list">
+                                {% for item in cart %}
+                                    <li class="cart-item row mr-1">
+                                        <a class="col-3" href="/product/{{ item._id }}"><img src="{{ item.image_url }}" width="auto" height="50px"></a>
+                                        <div class="col-6">
+                                            <a class="h4 cart-item-name" href="/product/{{ item._id }}">{{ item.name }}</a>
+                                            <p>{{ item.price }}</p>
+                                        </div>
+                                        <form action="/cart/remove" method="POST" class="col-3">
+                                            <input type="hidden" value="{{ item._id }}" name="item_id">
+                                            <button class="btn cart-remove-item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                </svg>
+                                            </button>
+                                            <p>QTY {{ item.qty }}</p>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <hr>
+                            <div class="cart-info gap-1">
+                                <div class="d-flex flex-row align-items-baseline justify-content-between">
+                                    <h1 class="cart-subtotal">Subtotal</h1>
+                                    <h1 class="cart-subtotal-amount">${{subtotal}}</h1>
+                                </div>
+                                <p class="text-center">Taxes and shipping calculated at checkout</p>
+                                <form class="text-center" action="checkout" method="get">
+                                    <button class="btn btn-primary">Checkout</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="text-center">Your cart is currently empty</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
