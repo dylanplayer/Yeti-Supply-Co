@@ -25,6 +25,10 @@ main {
     font-size: 1.5rem;
 }
 
+.text-primary {
+    color: #F57D25 !important;
+}
+
 .orange-accent {
     background-color: #F57D25;
     border: 1px solid transparent;
@@ -318,4 +322,44 @@ footer a:hover {
 
 .cart-subtotal-amount {
     font-size: 2rem;
+}
+
+#login, #register {
+    max-width: 450px !important;
+}
+
+.name-input {
+    width: 49% !important;
+}
+
+.orders{
+    max-width: 450px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orders h1 {
+    font-weight: bold;
+}
+
+.order {
+    border: 1px solid #F57D25;
+    border-radius: 25px;
+    width: 100%;
+    padding: 1rem !important;
+}
+
+.order a {
+    color: white;
+}
+
+.order-container {
+    min-height: 75vh;
+    max-width: 600px !important;
+}
+
+.order-totals {
+    margin-top: auto;
+    margin-bottom: 1rem;
 }

@@ -3,6 +3,7 @@ from pymongo import MongoClient, collection
 from datetime import datetime
 from bson import ObjectId, json_util
 import os
+import bcrypt
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
@@ -14,7 +15,8 @@ client = MongoClient(host=host)
 db = client.get_database('YETI-SUPPLY-CO')
 products = db.products
 collections = db.collections
-
+users = db.users
+orders = db.orders
 
 @app.route('/', methods=['GET'])
 def index():
@@ -80,6 +82,18 @@ def get_collection(_id):
         return render_template('collection.html', collections=collections.find(), collection=collection, products=products_list, cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0)
 
 # Order
+@app.route('/order/<id>', methods=['GET'])
+def get_order(id):
+    order = orders.find_one({'_id': ObjectId(id)})
+    if order:
+        order['total'] = 0
+        for item in order['products']:
+            order['total'] += float(item['price']) * int(item['qty'])
+        return render_template('order.html', order=order, collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0)
+    else:
+        flash('Unable to find order', 'danger')
+        return redirect('/account/')
+
 @app.route('/cart', methods=['POST'])
 def update_cart():
     if request.method == 'POST':
@@ -125,15 +139,138 @@ def cart_subtotal():
         subtotal += float(item['price']) * int(item['qty'])
     return subtotal
 
+@app.route('/checkout/', methods=['POST'])
+def checkout():
+    if request.method == 'POST':
+        if session.get('email') and session.get('password'):
+            email = session['email']
+            password = session['password']
+            user = users.find_one({"$and": [{'email': email}, {'password': password}]})
+            if user:
+                if 'cart' in session:
+                    cart = json_util.loads(session['cart'])
+                    if len(cart) > 0:
+                        order = {
+                            'number': orders.count() + 1,
+                            'user_id': user['_id'],
+                            'products': [],
+                            'created_at': datetime.now(),
+                        }
+                        for item in cart:
+                            order['products'].append(item)
+                        order_id = orders.insert_one(order)
+                        users.update_one(
+                            {
+                                '_id': ObjectId(user['_id'])
+                            },
+                            {
+                                '$push': {
+                                    'orders': order_id.inserted_id
+                                }
+                            }
+                        )
+                        session['cart'] = json_util.dumps([])
+                        return redirect(f'/order/{order_id.inserted_id}')
+                    else:
+                        flash('Cart is empty', 'danger')
+                        return redirect('/')
+                else:
+                    flash('Cart does not exist', 'danger')
+                    return redirect('/')
+            else:
+                flash('You must login first', 'danger')
+                return redirect('/login/')
+        else:
+            flash('You must login first', 'danger')
+            return redirect('/login/')
+
+# User
+@app.route('/login/', methods=['GET','POST'])
+def login():
+    if (request.method == 'POST'):
+        email = request.form.get('email')
+        password = bcrypt.hashpw(request.form.get('password').encode('UTF-8'), salt.encode('UTF-8'))
+        user = users.find_one({"$and": [{'email': email}, {'password': password}]})
+        if user:
+            session['email'] = user['email']
+            session['password'] = user['password']
+            return redirect('/account')
+        else:
+            flash('Incorrect username or password', 'danger')
+            return render_template('login.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0)
+    else:
+        if session.get('email') and session.get('password'):
+            email = session['email']
+            password = session['password']
+            user = users.find_one({"$and": [{'email': email}, {'password': password}]})
+            if user:
+                return redirect('/account')
+            else:
+                return render_template('login.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0 )
+        else:
+            return render_template('login.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0 )
+
+@app.route('/register/', methods=['GET','POST'])
+def register():
+    if (request.method == 'POST'):
+        user = {
+            'first_name': request.form.get('first_name'),
+            'last_name': request.form.get('last_name'),
+            'email': request.form.get('email'),
+            'password': bcrypt.hashpw(request.form.get('password').encode('UTF-8'), salt.encode('UTF-8')),
+            'orders': [],
+            'created_at': datetime.now(),
+        }
+        users.insert_one(user)
+        session['email'] = user['email']
+        session['password'] = user['password']
+        return redirect('/account/')
+    else:
+        if session.get('email') and session.get('password'):
+            email = session['email']
+            password = session['password']
+            user = users.find_one({"$and": [{'email': email}, {'password': password}]})
+            if user:
+                return redirect('/account')
+            else:
+                return render_template('register.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0 )
+        else:
+            return render_template('register.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0 )
+
+@app.route('/account/')
+def dashboard():
+    if session.get('email') and session.get('password'):
+        email = session['email']
+        password = session['password']
+        user = users.find_one({"$and": [{'email': email}, {'password': password}]})
+        if user:
+            orders_list = []
+            for order in user['orders']:
+                orders_list.append(orders.find_one({'_id': ObjectId(order)}))
+            for order in orders_list:
+                order['total'] = 0
+                for item in order['products']:
+                    order['total'] += float(item['price']) * int(item['qty'])
+            return render_template('account.html', collections=collections.find(), cart = json_util.loads(session['cart']) if session.get('cart') else None, subtotal = cart_subtotal() if session.get('cart') else 0, orders=orders_list)
+        else:
+            flash('You must login first')
+            return redirect('/login')
+    else:
+        flash('You must login first')
+        return redirect('/login')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
 # Error Handler
-@app.errorhandler(Exception)
-def handle_exception(error):
-    if isinstance(error, HTTPException):
-        flash(f'{error} You have been redirected to the home page.', 'warning')
-        return redirect('/')
+# @app.errorhandler(Exception)
+# def handle_exception(error):
+#     if isinstance(error, HTTPException):
+#         flash(f'{error} You have been redirected to the home page.', 'warning')
+#         return redirect('/')
 
-
-# USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000 ,debug=False)
+    app.run(host='0.0.0.0', port=3000 ,debug=True)

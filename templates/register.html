@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}<title>Register</title>{% endblock %}
+{% block content %}
+    <main class="d-flex flex-column align-items-center justify-content-center m-2">
+        <form action="/register/" method="POST" class="form bg-dark rounded text-light p-5 w-100" id="register">
+            <legend>Register</legend>
+            <fieldset class="mb-3 container">
+                <div class="row">
+                    <label class="col-6 p-0" for="first_name">First Name</label>
+                    <label class="col-6 p-0" for="last_name">Last Name</label>
+                </div>
+                <div class="row gap-1">
+                    <input class="form-control col-6 name-input" required name="first_name" type="text">
+                    <input class="form-control col-6 name-input" required name="last_name" type="text">
+                </div>
+            </fieldset>
+            <fieldset class="form-group mb-3">
+                <label class="" for="email">Email</label>
+                <input class="form-control" required name="email" type="email">
+            </fieldset>
+            <fieldset class="form-group mb-3">
+                <label for="password">Password</label>
+                <input class="form-control" required name="password" type="password">
+            </fieldset>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </main>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}<title>Login</title>{% endblock %}
+{% block content %}
+    <main class="d-flex flex-column align-items-center justify-content-center m-2">
+        <form action="/login/" method="POST" class="form bg-dark rounded text-light p-5 w-100" id="login">
+            <legend>Login</legend>
+            <fieldset class="form-group mb-3">
+                <label class="" for="email">Email</label>
+                <input class="form-control" required name="email" type="email">
+            </fieldset>
+            <fieldset class="form-group mb-3">
+                <label for="password">Password</label>
+                <input class="form-control" required name="password" type="password">
+            </fieldset>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </main>
+{% endblock %}
