@@ -92,7 +92,7 @@
                             <div class="cart-info gap-1">
                                 <div class="d-flex flex-row align-items-baseline justify-content-between">
                                     <h1 class="cart-subtotal">Subtotal</h1>
-                                    <h1 class="cart-subtotal-amount">${{subtotal}}</h1>
+                                    <h1 class="cart-subtotal-amount">${{'%0.2f' % subtotal|float}}</h1>
                                 </div>
                                 <p class="text-center">Taxes and shipping calculated at checkout</p>
                                 <form class="text-center" action="/checkout/" method="POST">
