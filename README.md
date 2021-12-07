@@ -1,6 +1,4 @@
 # Yeti-Supply-Co
- - [x] Create ERD
- - [x] Draw Wireframes
- - [x] Crud 1st reasource
- - [x] Crud 2nd reasource
- - [ ] Crud 3rd reasource
+Yeti Supply Co. is the industry leader in all things outdoors.
+
+Check out <a href='https://yeti-supply-co.dylanplayer.com'>yeti-supply-co.dylanplayer.com</a>
