@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}<title>Order #000{{order.number}}</title>{% endblock %}
+{% block content %}
+    <main class="d-flex flex-column align-items-center justify-content-center">
+        <div class="d-flex flex-column align-items-center order-container bg-dark text-light w-100 m-2 p-2 pt-3 rounded gap-2">
+            <h1>Order #000{{order.number}}</h1>
+            {% for item in order.products %}
+                <li class="order-item row mr-1 align-items-center">
+                    <a class="col-3 rounded text-center" href="/product/{{ item._id }}"><img class="rounded" src="{{ item.image_url }}" width="75%" height="auto"></a>
+                    <div class="col-9">
+                        <div class="row align-items-center">
+                            <a class="h4 text-light order-item-name col-7" href="/product/{{ item._id }}">{{ item.name }}</a>
+                            <div class="col-2">
+                                <p class="h5 mb-0">x{{ item.qty }}</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="h5 mb-0">${{ item.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+            <div class="d-flex order-totals flex-row align-items-baseline justify-content-between w-50">
+                <h1 class="cart-subtotal">Total</h1>
+                <h1 class="cart-subtotal-amount">${{order.total}}</h1>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -37,7 +37,10 @@
                     </div>
                     <div class="offcanvas-body">
                         <ul class="list-unstyled">
+                            <hr>
                             <li><a class="h4 dropdown-item rounded" href="/">Home</a></li>
+                            <li><a class="h4 dropdown-item rounded" href="/shop">Shop</a></li>
+                            <hr>
                             <li>
                                 <ul class="list-unstyled">
                                     {% for collection in collections %}
@@ -45,6 +48,15 @@
                                     {% endfor %}
                                 </ul>
                             </li>
+                            <hr>
+                            {% if 'email' in session %}
+                                <li><a class="h4 dropdown-item rounded" href="/account">Account</a></li>
+                                <li><a class="h4 dropdown-item rounded" href="/logout">Logout</a></li>
+                            {% else %}
+                                <li><a class="h4 dropdown-item rounded" href="/login">Login</a></li>
+                                <li><a class="h4 dropdown-item rounded" href="/register">Register</a></li>
+                            {% endif %}
+                            <hr>
                         </ul>
                     </div>
                 </div>
@@ -83,7 +95,7 @@
                                     <h1 class="cart-subtotal-amount">${{subtotal}}</h1>
                                 </div>
                                 <p class="text-center">Taxes and shipping calculated at checkout</p>
-                                <form class="text-center" action="checkout" method="get">
+                                <form class="text-center" action="/checkout/" method="POST">
                                     <button class="btn btn-primary">Checkout</button>
                                 </form>
                             </div>

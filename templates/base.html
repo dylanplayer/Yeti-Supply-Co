@@ -14,17 +14,13 @@
 <body class="p-0">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                <img src="/favicon.ico" class="rounded mr-2" alt="Icon">
-                <strong class="mr-auto">Yeti Supply Co.</strong>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="toast-body">
-                    {{ message }}
-                </div>
+            <div class="fixed-bottom">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
@@ -41,7 +37,10 @@
                     </div>
                     <div class="offcanvas-body">
                         <ul class="list-unstyled">
+                            <hr>
                             <li><a class="h4 dropdown-item rounded" href="/">Home</a></li>
+                            <li><a class="h4 dropdown-item rounded" href="/shop">Shop</a></li>
+                            <hr>
                             <li>
                                 <ul class="list-unstyled">
                                     {% for collection in collections %}
@@ -49,6 +48,15 @@
                                     {% endfor %}
                                 </ul>
                             </li>
+                            <hr>
+                            {% if 'email' in session %}
+                                <li><a class="h4 dropdown-item rounded" href="/account">Account</a></li>
+                                <li><a class="h4 dropdown-item rounded" href="/logout">Logout</a></li>
+                            {% else %}
+                                <li><a class="h4 dropdown-item rounded" href="/login">Login</a></li>
+                                <li><a class="h4 dropdown-item rounded" href="/register">Register</a></li>
+                            {% endif %}
+                            <hr>
                         </ul>
                     </div>
                 </div>
@@ -87,7 +95,7 @@
                                     <h1 class="cart-subtotal-amount">${{subtotal}}</h1>
                                 </div>
                                 <p class="text-center">Taxes and shipping calculated at checkout</p>
-                                <form class="text-center" action="checkout" method="get">
+                                <form class="text-center" action="/checkout/" method="POST">
                                     <button class="btn btn-primary">Checkout</button>
                                 </form>
                             </div>
