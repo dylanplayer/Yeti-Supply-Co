@@ -265,11 +265,11 @@ def logout():
     return redirect('/')
 
 # Error Handler
-# @app.errorhandler(Exception)
-# def handle_exception(error):
-#     if isinstance(error, HTTPException):
-#         flash(f'{error} You have been redirected to the home page.', 'warning')
-#         return redirect('/')
+@app.errorhandler(Exception)
+def handle_exception(error):
+    if isinstance(error, HTTPException):
+        flash(f'{error} You have been redirected to the home page.', 'warning')
+        return redirect('/')
 
 
 if __name__ == '__main__':
