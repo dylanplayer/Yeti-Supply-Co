@@ -3,7 +3,7 @@ from pymongo import MongoClient, collection
 from datetime import datetime
 from bson import ObjectId, json_util
 import os
-
+from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
 
@@ -23,7 +23,6 @@ def index():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico')
-
 
 # Product
 @app.route('/product/new', methods=['POST', 'GET'])
@@ -55,7 +54,7 @@ def get_product(_id, show):
 
 @app.route('/shop')
 def get_all_products():
-    return render_template('shop.html', collections=collections.find(), products=products.find(), cart=json_util.loads(session['cart']) if session.get('cart') else None, subtotal=cart_subtotal() if session['cart'] else 0)
+    return render_template('shop.html', collections=collections.find(), products=products.find(), cart=json_util.loads(session['cart']) if session.get('cart') else None, subtotal=cart_subtotal() if session['cart'] else 0), 200
 
 # Collection
 @app.route('/collection/new', methods=['POST', 'GET'])
@@ -80,8 +79,6 @@ def get_collection(_id):
             products_list.append(products.find_one({'_id': ObjectId(_id)}))
         return render_template('collection.html', collections=collections.find(), collection=collection, products=products_list, cart=json_util.loads(session['cart']) if session.get('cart') else None, subtotal=cart_subtotal() if session['cart'] else 0)
 
-
-
 # Order
 @app.route('/cart', methods=['POST'])
 def update_cart():
@@ -103,6 +100,14 @@ def update_cart():
         return redirect(f'/product/{product_id}/show')
 
 @app.route('/cart/remove', methods=['POST'])
+
+# Error Handler
+@app.errorhandler(Exception)
+def handle_exception(error):
+    if isinstance(error, HTTPException):
+        flash(f'{error} You have been redirected to the home page.', 'warning')
+        return redirect('/')
+
 def remove_cart_item():
     if request.method == 'POST':
         product_id = ObjectId(request.form.get('item_id'))
@@ -128,13 +133,8 @@ def cart_subtotal():
         subtotal += float(item['price']) * int(item['qty'])
     return subtotal
 
-# Error Handler
-@app.errorhandler()
-def handle_all_exceptions(error):
-    flash(f'{error}. You have been redirected to the home page.', 'warning')
-    return redirect('/')
 
 # USER: FIRST, LAST, ADDRESS_LINE_1, ADDRESS_LINE_2, CITY, ZIPCODE, STATE, COUNTRY
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000 ,debug=True)
+    app.run(host='0.0.0.0', port=3000 ,debug=False)
