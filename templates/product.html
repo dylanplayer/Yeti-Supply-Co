@@ -20,8 +20,8 @@
                     <p class="product-description">{{ product.description }}</p>
                 </div>
             </div>
-            <form class="row product-actions-container">
-                <input type="hidden" value='{{ product._id }}'>
+            <form action="/cart" method="POST" class="row product-actions-container">
+                <input type="hidden" name="product_id" value='{{ product._id }}'>
                 <button type="submit" class="btn btn-primary">ADD TO CART</button>
             </form>
         </div>

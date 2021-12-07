@@ -50,6 +50,7 @@ main {
 
 .btn {
     border-radius: 25px !important;
+    text-transform: uppercase;
 }
 
 .btn:hover {
@@ -189,8 +190,10 @@ footer a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
     max-width: 700px;
+    min-height: 80vh;
 }
 
 .product-image-container {
@@ -279,4 +282,40 @@ footer a:hover {
 .collection-product-price {
     font-size: 1.2rem;
     color: #F57D25;
+}
+
+.cart-list {
+    min-height: 60vh;
+}
+
+.cart-item-name {
+    font-size: 1.4rem;
+    color: #242424;
+    text-decoration: none;
+}
+
+.cart-remove-item {
+    color: gray;
+}
+
+.cart-item a:hover {
+    color: #F57D25;
+    cursor: pointer;
+}
+
+.cart-info {
+    text-align: center;
+    padding: 1.2rem;
+}
+
+.cart-info > * {
+    margin-bottom: 1.2rem;
+}
+
+.cart-subtotal {
+    font-size: 2rem;
+}
+
+.cart-subtotal-amount {
+    font-size: 2rem;
 }
